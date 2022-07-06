@@ -1,0 +1,136 @@
+Los commponentes tienen una propiedas especial llamada children, la cual la pasamos poneinedo el conenido en medio del commponente
+Tal que asi -> <Mycomponent>Children</Mycomponent>
+
+Y accedemos desde el componente al children asi -> const Mycomponent = ({chidlren}) => {}
+
+
+
+useRef es un hook que te permite guardar en un objeto una referencia que no va a cambiar entre rendrizad.
+
+Ejemplo: 
+    import {useReff} from 'react'
+
+    const elementRef = useRef()
+
+    <h1 ref={elementRef}>My title</h1>
+
+El elementRef ahora tendria el elemento h1 del DOM osea haria referencia a el
+
+A los componentes no se les puede añadir una referencia asi como asi, para hacerlo se utiliza el forwardRef
+
+En el componente que queramos usar el ref={} importamos el forwardRef y envolver el componente con el
+Ejemplo:
+    import {forwardRef} from 'react'
+
+    const MyComponent = forwardRef(({propiedades}, ref) => {
+        ...nuestro componente
+    })
+
+useImperativeHandle es un que se utiliza para definir funciones en un componente que se pueden invocar desde fuera del componente 
+y no va a cambiar su valor a no ser que se lo indiques con las dependecias.
+En el primer parametro le indicamos donde tiene que guardar la funcion que queremos ejecutar desde fuera del componente
+
+Ejemplo: 
+    useImperativeHandle(ref, () => {
+        return {
+            funcionAExportar
+        }
+    })
+
+Para acceder a esta funcion desde el componente donde queremos utilizarla seria tal que asi -> 
+
+    import {useRef} from 'react'
+
+    const elementRef = useRef()
+
+    // Accedemos al valor siempre que se le cambia el valor al ref se accede con current
+    
+    const ejecutarFuncionAqui = elementRef.current.funcionAExportar()
+    return (
+        <ComponenteDeLaFuncion ref={elementRef} />
+    )
+
+
+La librería prop types te permite documentar que props son las que necesita un componente y los tipos de datos.
+Para instalarla -> npm install prop-types
+
+Importamos las proptypes en el componente donde queremos utilizarlas 
+import PropTypes from 'prop-types'
+
+Para utilizarlo al final del componente ->
+
+MyComponent.PropTypes = {
+    prop1: ProtoType.String.isRequired,
+    ...
+}
+
+Con MyComponent.displayName = 'cualquiernombre' podemos cambiar el nombre del componente cuando salga una alerta de que alguna prop no esta bien 
+
+
+Asignar valores por defecto a las props => 
+    const MyCompnent = ({username, buttonLabel = 'This is a default value'}) => {
+        ...
+    }
+
+TESTING EN react
+Nuestro proyecto al haberlo inciado con create-react-app ya viene con algunas dependencias necesiarias para realizar el TESTING
+Aun asi podemos instalar algunas dependecias que nos pueden ayudar :
+    npm install --save-dev @testing-library/react
+    npm install --save-dev @testing-library/jest-dom
+
+Para realizar un test de un componente en la carpeta components creamos un arhivo tal que asi-> MycomponentName.test.js
+Despues importamos las cosas necesarias ver -> ../components/Note.test.js
+
+La funcion render sirve para renerizar el componente y asi poder realizar test de lo que se ha renderizado
+
+component.debug() nos muetra que se esta renderizando
+
+fireEvent sirve para disparar eventos si queremos hacer click en un boton en el componente renderizado
+
+Un mock lo que hace es hacerse pasar por algo, por ejemplo podemos hacer que se haga pasar por una funcion cuando el fireEvent haga click en el boton
+y se creaaria tal que asi -> const mockHandler =  jest.fn()
+
+Y para saber cuantas veces se ha llamado al mock hay que acceder a mockHandler.mock.calls
+
+En  los test con poner expect(mockHandler).toHaveBeenCalledTimes(1) comprobamos que el mockHandler ha sido llamado 1.
+
+
+i18n siginifica internationalization en este caso lo utilizamos para el boton de cancel que pasa a llamarse exit y asi nos aseguramos que el nombre no vaire
+
+Mirar la cobertura de nuestros test, osea cuanto curbren de nuestra app -> npm test -- --coverage
+
+
+Cypress es la utilidad mas utilizada ahora mismo para hacer testing end-to-end 
+Instalarlo -> npm install cypress -D
+
+Añadimos script en el package.json -> "cypress:open": "cypress open"
+
+Hay que levantar el backend en modo test.
+Para ello añadir script en el backend -> "start:test": "cross-env NODE_ENV=test node index.js" ,
+ 
+
+Se ha craado una carpeta en nuestro frontend llamada cypress en e2e es donde ponemos los test.
+Con la sintaxis nombreDelTest.spec.cy.js
+
+Cypress por debajo no utiliza jest si no moka que es muy parecido.
+
+Para que el eslint se deje de quejar de las variables de cypress o sus metodos podemos hacer un 
+/* global cy */ en el inicio de nuestro test, pero la mejor forma es instalar ->
+    npm install eslint-plugin-cypress -D
+
+Una vez instalado en el package.json en eslinstConfig ->
+eslintConfig: {
+    ...,
+     "env": {
+      "cypress/globals": true
+    },
+     "plugins": [
+      "cypress"
+    ]
+}
+
+En nuestro backend añadirmos un nuevo controlador en la ruta /reset donode limpiamos todos los usarios y notas para nuestros test
+
+Para añadir comandos en los test hay que añadirlos en support/commands.js
+
+Para ejecutar los test desde la terminal añadir al package json este script -> "test:e2e": "cypress run"n
