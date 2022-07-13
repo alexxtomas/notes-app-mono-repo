@@ -2,29 +2,29 @@ import React from 'react'
 import Togglable from './Togglable.js'
 import PropTypes from 'prop-types'
 
-export default function LoginForm({ handleSubmit, ...props }) {
+export default function LoginForm ({ handleSubmit, ...props }) {
   return (
-    <Togglable buttonLabel="Show Login">
+    <Togglable buttonLabel='Show Login'>
       <form onSubmit={handleSubmit}>
         <div>
           <input
-            type="text"
+            type='text'
             value={props.username}
-            name="Username"
-            placeholder="Username"
+            name='Username'
+            placeholder='Username'
             onChange={props.handleUsernameChange}
           />
         </div>
         <div>
           <input
-            type="password"
+            type='password'
             value={props.password}
-            name="Password"
-            placeholder="Password"
+            name='Password'
+            placeholder='Password'
             onChange={props.handlePasswordChange}
           />
         </div>
-        <button id="form-login-button">Login</button>
+        <button id='form-login-button'>Login</button>
       </form>
     </Togglable>
   )
