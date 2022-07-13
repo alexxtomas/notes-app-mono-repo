@@ -1,10 +1,11 @@
 /* eslint "jsx-quotes": ["error", "prefer-double"] */
+import noteService from './services/notes'
 import React, { useEffect, useState } from 'react'
 import Notes from './Notes'
-import noteService from './services/notes'
 
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import NoteDetail from './components/NoteDetail'
+import Login from './Login'
 
 const Home = () => <h1>Home Page</h1>
 
@@ -15,19 +16,24 @@ const inlineStyles = {
 }
 
 const App = () => {
-  /* Añadimos la ruta dinamica /notes/:id en routes el cual con el link puesto en el Componente Note cuando hagamos click en una nota
-  nos llevara a /notes/idDeLaNota y alli poder renderizar solo esa nota  y creamos el componente NoteDetail.js para mostrar la informacion
-  de dicha nota */
-
-  /* Creamos el state para guardar las notas para luego pasarselas al NoteDetail que renderizara la nota correspondiente segun la id
-  que haya en la ruta dinamica /notes/:id */
   const [notes, setNotes] = useState()
+  const [user, setUser] = useState(null)
 
-  // Obtenemos las notas haciendo un get al servidor
   useEffect(() => {
     noteService.getAll().then((initialNotes) => setNotes(initialNotes))
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  }, [])
+
+  /* Añadimos el link login y renderizamos el componente Login.js , cuando el usuario haga login desaparecera ese link y la ruta en si
+  pero si tenemos el usuario hacemos que no se renderice */
   return (
     <BrowserRouter>
       <header>
@@ -40,12 +46,20 @@ const App = () => {
         <Link to="/users" style={inlineStyles}>
           Users
         </Link>
+        {user ? (
+          <em style={inlineStyles}>Logged as {user.name}</em>
+        ) : (
+          <Link to="/login" style={inlineStyles}>
+            Login
+          </Link>
+        )}
       </header>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/notes" element={<Notes />} />
         <Route path="/notes/:id" element={<NoteDetail notes={notes} />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   )

@@ -94,17 +94,19 @@ const App = () => {
 
       <Notification message={errorMessage} />
 
-      {user ? (
-        <NoteForm addNote={addNote} handleLogout={handleLogout} />
-      ) : (
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
-        />
-      )}
+      {user
+        ? (
+          <NoteForm addNote={addNote} handleLogout={handleLogout} />
+          )
+        : (
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+          )}
 
       <div>
         <button onClick={() => setShowAll(!showAll)}>
