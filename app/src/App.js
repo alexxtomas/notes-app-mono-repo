@@ -1,10 +1,18 @@
 /* eslint "jsx-quotes": ["error", "prefer-double"] */
-import React, { useState } from 'react'
+import React from 'react'
+import Notes from './Notes'
+
+/* Es un componente que tiene react-router que nos permite sustituir los ancores teniendo ya toda la logica para cambiar la url, no haria falta
+ por ejemplo hacer el history.pushState y demas */
+
+/* Para utilizar los componentes de react router necesitamos envolverlos en un Router, como estamos realizando esto en el navegador necesitamos
+el BrowserRouter */
+
+// Con Routes y Route lo que hacemos es renderizar el contenido del componente correspondiente dependiendo de la ruta en la que estemos
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 
 // Creamos las distintas paginas
 const Home = () => <h1>Home Page</h1>
-
-const Notes = () => <h1>Notes</h1>
 
 const Users = () => <h1>Users</h1>
 
@@ -14,42 +22,35 @@ const inlineStyles = {
 }
 
 const App = () => {
-  // Creamos un estado para saber en que pagina estamos
-  const [page, setPage] = useState(() => {
-    // Extraemos el nombre de la ruta en la que estamos para que esa sea el estado
-    const { pathname } = window.location
-    const page = pathname.slice(1)
-    return page
-  })
-  // Funcion que extrae el contenido de cada componente depende de en que pagina estemos
-  const getContent = () => {
-    if (page === 'notes') return <Notes />
-    else if (page === 'users') return <Users />
-    else return <Home />
-  }
-  // Nos hace cambiar de pagina clickando en los ancore, es una funcion que recibe otra funcion con el parametro event, prevenimos el cambio de pagina con
-  // el preventDefault y añadimos al pathname el nombre segun el estado que tengamos en page osea segun a que pagina quiera navegar el usuario.
-  const toPage = (page) => (event) => {
-    event.preventDefault()
-    window.history.pushState(null, '', `/${page}`)
-    setPage(page)
-  }
+  // El Link es lo que sustituye al ancore en vez de href utiliza to=""
+  // Envolvemos la aplicacion con BrowserRouter
 
+  /* En vez de utilizar el getContent() utilizamos el componente Route con el que con el atributo path="" le indicamos que cuando este
+  en ese path renderice el componente correspondiente  gracias a esto podemos eliminar el estado y el getContent()
+  El componente Route tiene que estar envuelto con el componente Routes con el path le indicamos en que path queremos que se renderice el
+  contenido y en element el indicamos el componente con el contenido a renderizar */
+
+  /* SOLO EN VERSIONES 5 PARA ABAJO DE REACT-ROUTER-DOM EN ESTA VERSION EL COMPONENTE SWITCH NO EXISTE
+  Con el componente switch indicamos que solo renderice con el primer path que haga match por que si no puede hacer match con mas de uno */
   return (
-    <div>
+    <BrowserRouter>
       <header>
-        <a href="#" onClick={toPage('home')} style={inlineStyles}>
+        <Link to="/" style={inlineStyles}>
           Home
-        </a>
-        <a href="#" onClick={toPage('notes')} style={inlineStyles}>
+        </Link>
+        <Link to="/notes" style={inlineStyles}>
           Notes
-        </a>
-        <a href="#" onClick={toPage('users')} style={inlineStyles}>
+        </Link>
+        <Link to="/users" style={inlineStyles}>
           Users
-        </a>
+        </Link>
       </header>
-      {getContent()}
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/notes" element={<Notes />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
