@@ -2,27 +2,18 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useField } from '../hooks/useField'
 
-const LoginForm = ({ handleSubmit, ...props }) => {
+const LoginForm = ({ handleSubmit }) => {
+  const username = useField({ type: 'text' })
+  const password = useField({ type: 'password' })
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <input
-          type="text"
-          value={props.username}
-          name="Username"
-          placeholder="Username"
-          onChange={props.handleUsernameChange}
-        />
+        <input {...username} name="Username" placeholder="Username" />
       </div>
       <div>
-        <input
-          type="password"
-          value={props.password}
-          name="Password"
-          placeholder="Password"
-          onChange={props.handlePasswordChange}
-        />
+        <input {...password} name="Password" placeholder="Password" />
       </div>
       <button id="form-login-button">Login</button>
     </form>
