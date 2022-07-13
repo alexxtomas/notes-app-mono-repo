@@ -2,8 +2,9 @@
 import noteService from './services/notes'
 import React, { useEffect, useState } from 'react'
 import Notes from './Notes'
+// Importamos el Navigate para realizar el redirect
+import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
 
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import NoteDetail from './components/NoteDetail'
 import Login from './Login'
 
@@ -31,9 +32,8 @@ const App = () => {
       noteService.setToken(user.token)
     }
   }, [])
-
-  /* Añadimos el link login y renderizamos el componente Login.js , cuando el usuario haga login desaparecera ese link y la ruta en si
-  pero si tenemos el usuario hacemos que no se renderice */
+  /* En el Route /login en el element de dicha ruta se añade un renderizado conodicional si tenemos el usario el login no se muestra
+  nos hace un redirect al home gracias al componente Navigate */
   return (
     <BrowserRouter>
       <header>
@@ -59,7 +59,7 @@ const App = () => {
         <Route path="/notes" element={<Notes />} />
         <Route path="/notes/:id" element={<NoteDetail notes={notes} />} />
         <Route path="/users" element={<Users />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
       </Routes>
     </BrowserRouter>
   )

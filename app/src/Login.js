@@ -3,11 +3,9 @@ import LoginForm from './components/LoginForm'
 import loginService from './services/login'
 import noteService from './services/notes'
 
-/* Este hook nos va permitir mandar al usuario cuando realice una accion a donde nosotros queramos */
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-  // Ejecutamos el hook useNavigate que nos permite navegar a traves de las rutas.
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
@@ -31,7 +29,6 @@ const Login = () => {
       setUsername('')
       setPassword('')
 
-      // Cuanod ya tenemos el usuario hacemos esto para mandar al usuario a la ruta que queramos
       navigate('/notes', { replace: true })
     } catch (e) {
       setErrorMessage('Wrong credentials')
