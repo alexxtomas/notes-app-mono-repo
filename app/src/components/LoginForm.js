@@ -7,6 +7,7 @@ import { useField } from '../hooks/useField'
 const LoginForm = ({ handleSubmit }) => {
   const username = useField({ type: 'text' })
   const password = useField({ type: 'password' })
+
   return (
     <form onSubmit={handleSubmit}>
       <div>

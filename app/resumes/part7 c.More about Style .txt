@@ -1,0 +1,7 @@
+// USAR bootstrap EN REACT
+instalamos bootstrap y react-bootstrap
+
+importamos los estilos del css en el index.js 
+
+
+
