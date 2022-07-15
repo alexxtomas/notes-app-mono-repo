@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { useField } from '../hooks/useField'
 import { useErrorMessage } from '../hooks/useErrorMessage'
 import Notification from './Notification'
-import { Button, Form } from 'react-bootstrap'
 
 const Login = ({ login }) => {
   const navigate = useNavigate()
@@ -31,24 +30,16 @@ const Login = ({ login }) => {
   const usernameInput = useField({ type: 'text' })
   const passwordInput = useField({ type: 'password' })
   return (
-    <Form onSubmit={handleLogin}>
-      <Form.Group id="username">
+    <form onSubmit={handleLogin}>
+      <div>
         <Notification message={errorMessage} />
-        <Form.Control
-          {...usernameInput}
-          name="username"
-          placeholder="Username"
-        />
-      </Form.Group>
-      <Form.Group id="password">
-        <Form.Control
-          {...passwordInput}
-          name="password"
-          placeholder="Password"
-        />
-      </Form.Group>
-      <Button type="submit">Login</Button>
-    </Form>
+        <input {...usernameInput} name="username" placeholder="Username" />
+      </div>
+      <div>
+        <input {...passwordInput} name="password" placeholder="Password" />
+      </div>
+      <button>Login</button>
+    </form>
   )
 }
 

@@ -1,6 +1,9 @@
+/* eslint "jsx-quotes": ["error", "prefer-double"] */
+
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import PropTypes from 'prop-types'
 import i18n from '../i18n/index'
+import { Button } from '@material-ui/core'
 
 const Togglable = forwardRef(({ children, buttonLabel = 'show' }, ref) => {
   const [visible, setVisible] = useState(false)
@@ -19,16 +22,15 @@ const Togglable = forwardRef(({ children, buttonLabel = 'show' }, ref) => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{buttonLabel}</button>
+        <Button onClick={toggleVisibility}>{buttonLabel}</Button>
       </div>
 
       <div style={showWhenVisible}>
         {children}
-        <button onClick={toggleVisibility}>
+        <Button onClick={toggleVisibility}>
           {i18n.TOGGABLE.CANCEL_BUTTON}
-        </button>
+        </Button>
       </div>
-
     </div>
   )
 })

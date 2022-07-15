@@ -9,47 +9,48 @@ import Notes from './Notes'
 import NoteDetail from './NoteDetail'
 import Login from './Login'
 import { useUser } from '../hooks/useUser'
-import { Nav, Navbar } from 'react-bootstrap'
+import Container from '@material-ui/core/Container'
+import { AppBar, Button, IconButton, Toolbar } from '@material-ui/core'
 
 const Menu = () => {
   const { user, logout, login } = useUser()
-  const inlineStyles = {
-    padding: 5
-  }
+
   return (
     <BrowserRouter>
-      <div className="container">
-        <Navbar collapseOnSelect expand="lg">
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-
-          <Navbar.Collapse>
-            <Nav>
-              <Link to="/" style={inlineStyles}>
+      <Container>
+        <AppBar position="fixed">
+          <Toolbar>
+            <IconButton edge="start" color="inherit" aria-label="menu" />
+            <header>
+              <Button color="inherit" component={Link} to="/">
                 Home
-              </Link>
-              <Link to="/notes" style={inlineStyles}>
+              </Button>
+              <Button color="inherit" component={Link} to="/notes">
                 Notes
-              </Link>
-              <Link to="/users" style={inlineStyles}>
+              </Button>
+              <Button color="inherit" component={Link} to="/users">
                 Users
-              </Link>
-              {user ? (
-                <button
-                  onClick={() => {
-                    logout()
-                    window.location.reload()
-                  }}
-                >
-                  Logout
-                </button>
-              ) : (
-                <Link to="/login" style={inlineStyles}>
-                  Login
-                </Link>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+              </Button>
+              <Button color="inherit">
+                {user ? (
+                  <Button
+                    onClick={() => {
+                      logout()
+                      window.location.reload()
+                    }}
+                    color="inherit"
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <Button color="inherit" component={Link} to="/login">
+                    Login
+                  </Button>
+                )}
+              </Button>
+            </header>
+          </Toolbar>
+        </AppBar>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/notes" element={<Notes />} />
@@ -60,7 +61,7 @@ const Menu = () => {
             element={user ? <Navigate to="/" /> : <Login login={login} />}
           />
         </Routes>
-      </div>
+      </Container>
     </BrowserRouter>
   )
 }

@@ -1,7 +1,10 @@
-// USAR bootstrap EN REACT
+// USAR BOOTSTRAP EN REACT
 instalamos bootstrap y react-bootstrap
 
 importamos los estilos del css en el index.js 
 
-
+// USAR MATERIAL UI EN REACT
+instalamos @material-ui/core -> npm install @material-ui/core
+    
+añadimos la font de google en el /public/index.html => <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 

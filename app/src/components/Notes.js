@@ -5,7 +5,13 @@ import Note from './Note'
 import NoteForm from './NoteForm.js'
 import { useNotes } from '../hooks/useNotes'
 import { useUser } from '../hooks/useUser'
-import Table from 'react-bootstrap/Table'
+import {
+  Button,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow
+} from '@material-ui/core'
 
 const Notes = () => {
   // Usamos los cutom hook
@@ -22,22 +28,25 @@ const Notes = () => {
         <h1>Notes</h1>
         <NoteForm addNote={addNote} />
         <div>
-          <button onClick={() => setShowAll(!showAll)}>
+          <Button onClick={() => setShowAll(!showAll)}>
             show {showAll ? 'important' : 'all'}
-          </button>
+          </Button>
         </div>
-        <Table striped>
-          <tbody>
-            {notesToShow.map((note) => (
-              <tr key={note.id}>
-                <Note
-                  note={note}
-                  toggleImportance={() => toggleImportanceOf(note.id)}
-                />
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <TableContainer>
+          <Table>
+            <TableBody>
+              {notesToShow.map((note, i) => (
+                <TableRow key={note.id}>
+                  <Note
+                    key={i}
+                    note={note}
+                    toggleImportance={() => toggleImportanceOf(note.id)}
+                  />
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     )
   } else {
@@ -49,15 +58,9 @@ const Notes = () => {
             show {showAll ? 'important' : 'all'}
           </button>
         </div>
-        <Table striped>
-          <tbody>
-            {notesToShow.map((note) => (
-              <tr key={note.id}>
-                <Note note={note} notLogged />
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        {notesToShow.map((note) => (
+          <Note note={note} key={note.id} notLogged />
+        ))}
       </div>
     )
   }
