@@ -1,25 +1,25 @@
 /* eslint "jsx-quotes": ["error", "prefer-double"] */
-import { Button, TableCell } from '@material-ui/core'
+
 import React from 'react'
 // Lo vamos a utilizar para que sea posible entrar a una nosta especifica con la ruta /notes/:id
 import { Link } from 'react-router-dom'
+import { Button } from './Button'
 
 const Note = ({ note, toggleImportance, notLogged }) => {
   const label = note.important ? 'make not important' : 'make important'
   if (notLogged === true) {
-    return <Link to={`/notes/${note.id}`}>{note.content}</Link>
+    return (
+      <li>
+        <Link to={`/notes/${note.id}`}>{note.content}</Link>
+      </li>
+    )
   }
   return (
-    <>
-      <TableCell>
-        <Link to={`/notes/${note.id}`}>{note.content}</Link>
-      </TableCell>
-      <TableCell>
-        <Button color="primary" variant="outlined" onClick={toggleImportance}>
-          {label}
-        </Button>
-      </TableCell>
-    </>
+    <li>
+      <Link to={`/notes/${note.id}`}>{note.content}</Link>
+
+      <Button onClick={toggleImportance}>{label}</Button>
+    </li>
   )
 }
 

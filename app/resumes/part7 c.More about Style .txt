@@ -8,3 +8,7 @@ instalamos @material-ui/core -> npm install @material-ui/core
     
 añadimos la font de google en el /public/index.html => <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
 
+// USAR STYLED-COMPONENTS
+instalamos styled-components -> npm install styled-components
+se puede estilar cualquier elemente que acepte el atributo className
+Se crean componentes donde alli estilamos el componente y luego lo utilizamos, ver /components/Button.js /components/StyledLink.js

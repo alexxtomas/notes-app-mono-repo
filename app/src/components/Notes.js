@@ -5,13 +5,6 @@ import Note from './Note'
 import NoteForm from './NoteForm.js'
 import { useNotes } from '../hooks/useNotes'
 import { useUser } from '../hooks/useUser'
-import {
-  Button,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow
-} from '@material-ui/core'
 
 const Notes = () => {
   // Usamos los cutom hook
@@ -28,25 +21,19 @@ const Notes = () => {
         <h1>Notes</h1>
         <NoteForm addNote={addNote} />
         <div>
-          <Button onClick={() => setShowAll(!showAll)}>
+          <button onClick={() => setShowAll(!showAll)}>
             show {showAll ? 'important' : 'all'}
-          </Button>
+          </button>
         </div>
-        <TableContainer>
-          <Table>
-            <TableBody>
-              {notesToShow.map((note, i) => (
-                <TableRow key={note.id}>
-                  <Note
-                    key={i}
-                    note={note}
-                    toggleImportance={() => toggleImportanceOf(note.id)}
-                  />
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <ul>
+          {notesToShow.map((note, i) => (
+            <Note
+              key={i}
+              note={note}
+              toggleImportance={() => toggleImportanceOf(note.id)}
+            />
+          ))}
+        </ul>
       </div>
     )
   } else {
@@ -58,9 +45,11 @@ const Notes = () => {
             show {showAll ? 'important' : 'all'}
           </button>
         </div>
-        {notesToShow.map((note) => (
-          <Note note={note} key={note.id} notLogged />
-        ))}
+        <ul>
+          {notesToShow.map((note, i) => (
+            <Note note={note} key={i} notLogged />
+          ))}
+        </ul>
       </div>
     )
   }
